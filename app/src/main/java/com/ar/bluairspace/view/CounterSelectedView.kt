@@ -10,7 +10,7 @@ import com.ar.bluairspace.R
 
 class CounterSelectedView : LinearLayout {
 
-    private var mText: TextView? = null
+    private lateinit var textView: TextView
 
     constructor(context: Context?) : super(context) {
         initView()
@@ -28,23 +28,17 @@ class CounterSelectedView : LinearLayout {
     private fun initView() {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.view_counter_selected_items, this)
-        mText = view.findViewById(R.id.txt_text)
+        textView = view.findViewById(R.id.txt_text)
     }
 
     fun show() {
         visibility = View.VISIBLE
     }
 
-    fun hide() {
-        visibility = View.GONE
-    }
-
     fun setCount(count: Int) {
         if (count > 0) {
-            mText!!.text = String.format("View in room (%d)", count)
+            textView.text = String.format("View in room (%d)", count)
             if (visibility == View.GONE) show()
-        } else {
-            mText!!.text = "Select items"
-        }
+        } else textView.text = "Select items"
     }
 }

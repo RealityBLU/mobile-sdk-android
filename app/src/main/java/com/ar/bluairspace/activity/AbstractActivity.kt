@@ -25,8 +25,9 @@ abstract class AbstractActivity : AppCompatActivity() {
         }
     }
 
-    private var arType: ARActivityWikitude.Type = ARActivityWikitude.Type.CLOUDRECOGNITION
+    private var arType: Int = -1
     private var list: List<MarkerlessExperience> = ArrayList()
+    private var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +37,10 @@ abstract class AbstractActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (PermissionUtil.isPermissionsGrantedAndAsk(this, requestCode, grantResults)) {
             when(arType){
-                ARActivityWikitude.Type.CLOUDRECOGNITION -> startMarkerbased(MarkerBasedSettings.defaultMarkerBasedSettings())
-                ARActivityWikitude.Type.INSTANTTRACKING -> startMarkerless(list)
+                1 -> startMarkerbased(MarkerBasedSettings.defaultMarkerBasedSettings())
+                2 -> startMarkerless(list)
+                3 -> startMarkerlessById(id)
+                else -> return
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -52,7 +55,7 @@ abstract class AbstractActivity : AppCompatActivity() {
     }
 
     fun startMarkerbased(markerBasedSettings: MarkerBasedSettings) {
-        arType = ARActivityWikitude.Type.CLOUDRECOGNITION
+        arType = 1
         if (checkPermissions()) {
             loadingView.showLoadingIndicator()
             Blu.startMarkerbased(this, callback, markerBasedSettings)
@@ -60,11 +63,20 @@ abstract class AbstractActivity : AppCompatActivity() {
     }
 
     fun startMarkerless(list: List<MarkerlessExperience>) {
-        arType = ARActivityWikitude.Type.INSTANTTRACKING
+        arType = 2
         this.list = list
         if (checkPermissions()) {
             loadingView.showLoadingIndicator()
             Blu.startMarkerless(this, list, callback)
+        }
+    }
+
+    fun startMarkerlessById(id: Int){
+        this.id = id
+        arType = 3
+        if (checkPermissions()) {
+            loadingView.showLoadingIndicator()
+            Blu.startMarkerlessById(this, id, callback)
         }
     }
 

@@ -3,6 +3,7 @@ package com.ar.bluairspace.fragment
 import android.os.Bundle
 import android.view.View
 import com.ar.bluairspace.R
+import com.ar.bluairspace.activity.AbstractActivity
 import com.bluairspace.sdk.helper.Blu
 import com.bluairspace.sdk.helper.callback.TaskCallback
 import com.ar.bluairspace.activity.MainActivity
@@ -25,25 +26,10 @@ class MainFragment : AbstractFragment(), View.OnClickListener {
     override fun onClick(view: View) {
         when (view.id) {
             R.id.btn_markerbased -> (activity as MainActivity?)!!.changeFragment(MarkerbasedFragment())
-            R.id.btn_markerless -> (activity as MainActivity?)!!.changeFragment(
-                MarkerlessGroupFragment()
-            )
-            R.id.btn_markerless_by_id -> openMarkerlessById(edt_experience_id.text.toString().toInt())
+            R.id.btn_markerless -> (activity as MainActivity?)!!.changeFragment(MarkerlessGroupFragment())
+            R.id.btn_markerless_by_id -> (activity as AbstractActivity).startMarkerlessById((edt_experience_id.text.toString().toInt()))
             else -> {
             }
         }
-    }
-
-    private fun openMarkerlessById(id: Int){
-        (activity as MainActivity).loadingView.showLoadingIndicator()
-        Blu.startMarkerlessById(activity!!, id, object : TaskCallback{
-            override fun onSuccess() {
-                (activity as MainActivity).loadingView.hideLoadingIndicator()
-            }
-
-            override fun onFail(errorMessage: String) {
-                (activity as MainActivity).loadingView.showError(errorMessage)
-            }
-        })
     }
 }

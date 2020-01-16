@@ -14,8 +14,7 @@ import kotlinx.android.synthetic.main.fragment_markerbased.*
 
 class MarkerbasedFragment : AbstractFragment(), View.OnClickListener {
 
-    override val layoutId: Int
-        get() = R.layout.fragment_markerbased
+    override val layoutId = R.layout.fragment_markerbased
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

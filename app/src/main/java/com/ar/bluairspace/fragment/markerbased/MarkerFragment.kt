@@ -20,33 +20,27 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ar.bluairspace.activity.AbstractActivity
 import com.ar.bluairspace.fragment.AbstractFragment
+import kotlinx.android.synthetic.main.fragment_download_marker.*
 
 class MarkerFragment : AbstractFragment() {
 
-    protected lateinit var mRecyclerView: RecyclerView
-    private var mAdapter: MarkerlessAdapter? = null
-    override val layoutId: Int
-        get() = R.layout.fragment_download_marker
+    override val layoutId = R.layout.fragment_download_marker
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mRecyclerView = view.findViewById(R.id.list_item)
-        val orientation = activity!!.resources.configuration.orientation
-        if (orientation == 1) mRecyclerView.layoutManager = LinearLayoutManager(activity)
-        else mRecyclerView.layoutManager = GridLayoutManager(activity, 2)
+        list_item.layoutManager = LinearLayoutManager(activity)
 
-        (activity as AbstractActivity).loadingView.showLoadingIndicator()
+        showLoading()
 
         BluDataHelper.getMarkerbasedMarkers(object : DataCallback<MarkerbasedMarker> {
             override fun onSuccess(list: List<MarkerbasedMarker>) {
-                mAdapter = MarkerlessAdapter(list)
-                mRecyclerView.adapter = mAdapter
-                (activity as AbstractActivity?)!!.loadingView.hideLoadingIndicator()
+                list_item.adapter = MarkerlessAdapter(list)
+                hideLoading()
             }
 
             override fun onFail(errorMessage: String) {
-                (activity as AbstractActivity?)!!.loadingView.showError(errorMessage)
+                showError(errorMessage)
             }
         })
     }
@@ -69,34 +63,25 @@ class MarkerFragment : AbstractFragment() {
 
 
         inner class MarkerlessExpHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var mThumbnail: ImageView? = null
-            var mDescription: TextView? = null
+            var image: ImageView = itemView.findViewById(R.id.image_thumbnail)
+            var description: TextView = itemView.findViewById(R.id.txt_description)
 
-            init {
-                mThumbnail = itemView.findViewById(R.id.image_thumbnail)
-                mDescription = itemView.findViewById(R.id.txt_description)
-                itemView.setOnClickListener(this)
-            }
+            init { itemView.setOnClickListener(this) }
 
             fun bind(marker: MarkerbasedMarker) {
-                mDescription!!.text = marker.title
+                description.text = marker.title
                 Glide.with(context!!).load(marker.icon)
                     .apply(RequestOptions().placeholder(R.drawable.ic_placeholder))
-                    .into(mThumbnail!!)
+                    .into(image)
             }
 
             override fun onClick(v: View?) {
                 val position: Int = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val path = mList[position].targetFile!!.trim { it <= ' ' }
-                    try {
-                        val i = Intent(Intent.ACTION_VIEW)
-                        i.data = Uri.parse(path)
-                        activity!!.startActivity(i)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        Toast.makeText(context, "Can't handle", Toast.LENGTH_SHORT).show()
-                    }
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(path)
+                    activity!!.startActivity(intent)
                 }
             }
         }

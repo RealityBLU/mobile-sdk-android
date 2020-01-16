@@ -17,13 +17,12 @@ import com.ar.bluairspace.activity.AbstractActivity
 import com.ar.bluairspace.activity.MainActivity
 import com.ar.bluairspace.data.GalleryMarkerless
 import com.ar.bluairspace.fragment.AbstractFragment
+import com.bluairspace.sdk.helper.data.BluDataHelper
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.fragment_markerless_scene.*
 
 class MarkerlessGroupFragment : AbstractFragment() {
-
-    private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mAdapter: MarkerlessExpAdapter
 
     override val layoutId: Int
         get() = R.layout.fragment_markerless_scene
@@ -31,19 +30,17 @@ class MarkerlessGroupFragment : AbstractFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mRecyclerView = view.findViewById(R.id.list_item)
+        showLoading()
 
-        (activity as AbstractActivity?)!!.loadingView.showLoadingIndicator()
-        getMarkerlessGroups(object : DataCallback<MarkerlessGroup> {
+        BluDataHelper.getMarkerlessGroups(object : DataCallback<MarkerlessGroup> {
             override fun onSuccess(list: List<MarkerlessGroup>) {
-                mAdapter = MarkerlessExpAdapter(list)
-                mRecyclerView.layoutManager = LinearLayoutManager(activity)
-                mRecyclerView.adapter = mAdapter
-                (activity as AbstractActivity?)!!.loadingView.hideLoadingIndicator()
+                list_item.layoutManager = LinearLayoutManager(activity)
+                list_item.adapter = MarkerlessExpAdapter(list)
+                hideLoading()
             }
 
             override fun onFail(errorMessage: String) {
-                (activity as AbstractActivity?)!!.loadingView.showError(errorMessage)
+                showError(errorMessage)
             }
         })
     }
@@ -67,21 +64,18 @@ class MarkerlessGroupFragment : AbstractFragment() {
             return mList.size
         }
 
-        inner class MarkerlessExpHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-            View.OnClickListener {
-            var mThumbnail: ImageView? = itemView.findViewById(R.id.image_thumbnail)
-            var mDescription: TextView? = itemView.findViewById(R.id.txt_description)
+        inner class MarkerlessExpHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+            var mThumbnail: ImageView = itemView.findViewById(R.id.image_thumbnail)
+            var mDescription: TextView = itemView.findViewById(R.id.txt_description)
 
-            init {
-                itemView.setOnClickListener(this)
-            }
+            init { itemView.setOnClickListener(this) }
 
             fun bind(markerlessScene: MarkerlessGroup) {
-                mDescription!!.text = markerlessScene.title
+                mDescription.text = markerlessScene.title
                 Glide.with(context!!)
                     .load(markerlessScene.icon)
                     .apply(RequestOptions().placeholder(R.drawable.ic_placeholder))
-                    .into(mThumbnail!!)
+                    .into(mThumbnail)
             }
 
             override fun onClick(v: View) {
@@ -92,9 +86,7 @@ class MarkerlessGroupFragment : AbstractFragment() {
                     val bundle = Bundle()
                     bundle.putInt(MarkerlessItemFragment.EXTRA_ID_SCENE, mList[position].id!!)
                     fragment.arguments = bundle
-                    (activity as MainActivity?)!!.changeFragment(
-                        fragment
-                    )
+                    (activity as MainActivity?)!!.changeFragment(fragment)
                 }
             }
         }

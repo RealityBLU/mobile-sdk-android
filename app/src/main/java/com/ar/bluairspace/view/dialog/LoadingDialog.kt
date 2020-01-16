@@ -76,8 +76,7 @@ class LoadingDialog : DialogFragment() {
                 }
 
                 override fun showError(message: String) {
-                    Handler().post {
-                        dialog.showError(message) }
+                    Handler().post { dialog.showError(message) }
                 }
             }
         }
