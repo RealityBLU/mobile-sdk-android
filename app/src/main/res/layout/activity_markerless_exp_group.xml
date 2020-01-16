@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
+
+            android:id="@+id/grid_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="@dimen/thumbnail_size_big"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:stretchMode="columnWidth">
+        </com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView>
+
+        <com.ar.bluairspace.view.CounterSelectedView
+            android:id="@+id/counter_view"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_view_counter_selected_items"
+            android:layout_gravity="bottom">
+        </com.ar.bluairspace.view.CounterSelectedView>
+    </FrameLayout>
+</LinearLayout>
