@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import com.ar.bluairspace.R
 import com.ar.bluairspace.activity.AbstractActivity
-import com.bluairspace.sdk.helper.Blu
-import com.bluairspace.sdk.helper.callback.TaskCallback
 import com.ar.bluairspace.activity.MainActivity
 import com.ar.bluairspace.fragment.markerbased.MarkerbasedFragment
 import com.ar.bluairspace.fragment.markerless.MarkerlessGroupFragment

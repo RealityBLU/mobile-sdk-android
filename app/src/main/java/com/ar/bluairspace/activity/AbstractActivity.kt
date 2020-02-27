@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ar.bluairspace.view.dialog.LoadingDialog
 import com.ar.bluairspace.view.dialog.LoadingView
-import com.bluairspace.sdk.activity.wikitude.ARActivityWikitude
 import com.bluairspace.sdk.helper.Blu
-import com.bluairspace.sdk.helper.callback.TaskCallback
 import com.bluairspace.sdk.model.MarkerBasedSettings
 import com.bluairspace.sdk.model.MarkerlessExperience
-import com.bluairspace.sdk.util.PermissionUtil
+import com.bluairspace.sdk.model.callback.TaskCallback
+import com.bluairspace.sdk.model.exception.BluairspaceSdkException
+import com.bluairspace.sdk.util.publicutil.PermissionUtil
 
 abstract class AbstractActivity : AppCompatActivity() {
     lateinit var loadingView: LoadingView
@@ -20,8 +20,12 @@ abstract class AbstractActivity : AppCompatActivity() {
             loadingView.hideLoadingIndicator()
         }
 
-        override fun onFail(errorMessage: String) {
-            loadingView.showError(errorMessage)
+        override fun onFail(exception: BluairspaceSdkException) {
+            loadingView.showError(exception.toString())
+        }
+
+        override fun onProgress(currentItemCount: Int, maxItemCount: Int) {
+            loadingView.showProgress(currentItemCount, maxItemCount)
         }
     }
 
@@ -37,7 +41,8 @@ abstract class AbstractActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (PermissionUtil.isPermissionsGrantedAndAsk(this, requestCode, grantResults)) {
             when(arType){
-                1 -> startMarkerbased(MarkerBasedSettings.defaultMarkerBasedSettings())
+                1 -> startMarkerbased()
+                4 -> startMarkerbasedProofing()
                 2 -> startMarkerless(list)
                 3 -> startMarkerlessById(id)
                 else -> return
@@ -54,11 +59,19 @@ abstract class AbstractActivity : AppCompatActivity() {
         return true
     }
 
-    fun startMarkerbased(markerBasedSettings: MarkerBasedSettings) {
+    fun startMarkerbased() {
         arType = 1
         if (checkPermissions()) {
             loadingView.showLoadingIndicator()
-            Blu.startMarkerbased(this, callback, markerBasedSettings)
+            Blu.startMarkerbased(this, callback, MarkerBasedSettings.defaultMarkerBasedSettings())
+        }
+    }
+
+    fun startMarkerbasedProofing() {
+        arType = 4
+        if (checkPermissions()) {
+            loadingView.showLoadingIndicator()
+            Blu.startMarkerbased(this, callback, MarkerBasedSettings.proofingMarkerBasedSettings())
         }
     }
 

@@ -26,5 +26,11 @@
             android:text="start markerbased"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_start_markerbased_proofing"
+            android:text="start markerbased with proofing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

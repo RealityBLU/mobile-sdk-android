@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BluSdkExample</string>
     <string name="action_settings">Settings</string>
+    <string name="loading_models_hint">Models: %1$d/%2$d</string>
 </resources>

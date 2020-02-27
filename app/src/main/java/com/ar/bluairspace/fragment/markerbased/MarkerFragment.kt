@@ -8,18 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ar.bluairspace.R
-import com.bluairspace.sdk.helper.callback.DataCallback
-import com.bluairspace.sdk.helper.data.BluDataHelper
 import com.bluairspace.sdk.model.MarkerbasedMarker
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.ar.bluairspace.activity.AbstractActivity
 import com.ar.bluairspace.fragment.AbstractFragment
+import com.bluairspace.sdk.helper.BluDataHelper
+import com.bluairspace.sdk.model.callback.DataCallback
+import com.bluairspace.sdk.model.exception.BluairspaceSdkException
 import kotlinx.android.synthetic.main.fragment_download_marker.*
 
 class MarkerFragment : AbstractFragment() {
@@ -39,8 +37,8 @@ class MarkerFragment : AbstractFragment() {
                 hideLoading()
             }
 
-            override fun onFail(errorMessage: String) {
-                showError(errorMessage)
+            override fun onFail(exception: BluairspaceSdkException) {
+                showError(exception.toString())
             }
         })
     }

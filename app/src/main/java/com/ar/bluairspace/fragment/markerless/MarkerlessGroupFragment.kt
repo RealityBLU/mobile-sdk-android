@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.AsyncListUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ar.bluairspace.R
-import com.bluairspace.sdk.helper.callback.DataCallback
-import com.bluairspace.sdk.helper.data.BluDataHelper.getMarkerlessGroups
 import com.bluairspace.sdk.model.MarkerlessGroup
-import com.ar.bluairspace.activity.AbstractActivity
 import com.ar.bluairspace.activity.MainActivity
 import com.ar.bluairspace.data.GalleryMarkerless
 import com.ar.bluairspace.fragment.AbstractFragment
-import com.bluairspace.sdk.helper.data.BluDataHelper
+import com.bluairspace.sdk.helper.BluDataHelper
+import com.bluairspace.sdk.model.callback.DataCallback
+import com.bluairspace.sdk.model.exception.BluairspaceSdkException
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_markerless_scene.*
@@ -39,8 +39,8 @@ class MarkerlessGroupFragment : AbstractFragment() {
                 hideLoading()
             }
 
-            override fun onFail(errorMessage: String) {
-                showError(errorMessage)
+            override fun onFail(exception: BluairspaceSdkException) {
+                showError(exception.toString())
             }
         })
     }

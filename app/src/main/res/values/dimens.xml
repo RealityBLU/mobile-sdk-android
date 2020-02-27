@@ -1,3 +1,11 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="thumbnail_size_big">90dp</dimen>
+    <dimen name="height_view_counter_selected_items">50dp</dimen>
+    <dimen name="padding_middle">10dp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="padding_small">5dp</dimen>
+    <dimen name="thumbnail_size_tiny">40dp</dimen>
+    <dimen name="height_item_in_list">51dp</dimen>
 </resources>
