@@ -1,5 +1,6 @@
 # Index
 
+* [Technical overview](#overview)
 * [Installation](#installation)
 * [Compatibility](#compatibility)
 * [BLUairspace SDK](#bluairspace_sdk)
@@ -9,6 +10,12 @@
     * [Markerless models loading progress](#markerless_models_progress)
 * [UI Customization](#customization)
 * [Permissions handling](#permissions)
+
+## <a name="overview"/>Technical overview
+
+All methods for getting data from sdk written with [kotlin coroutines.](https://kotlinlang.org/docs/reference/coroutines-overview.html) Then you may not use different libraries for thread handling. All callbacks calls only on main thread.
+All required dependencies will load automatically and hidden for developers, except coroutines dependency.
+For better controll of downloading data use presentation layer patterns, such as `MVVM`, `RxPM` and other.
 
 ## <a name="installation"/>Installation
 You can integrate BLU SDK into your project manually by following steps:
