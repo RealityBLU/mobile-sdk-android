@@ -6,6 +6,7 @@
     * [Initialization](#initialization)
     * [Markerbased](#markerbased)
     * [Markerless](#markerless)
+    * [Tasks Cancelataion](#task_cancelation)
 * [UI Customization](#customization)
 * [Permissions handling](#permissions)
 
@@ -35,7 +36,7 @@ repositories {
 }
 
 dependencies {
-   implementation 'com.ar.bluairspace:sdk-android:0.0.1'
+   implementation 'com.ar.bluairspace:sdk-android:1.2.1'
 }
 ```
 
@@ -109,6 +110,14 @@ Blu.startMarkerless(activity: FragmentActivity, list: List<MarkerlessExperience>
 Or you can open markerless screen only with 1 experience with:
 ```kotlin
 Blu.startMarkerlessById(activity: FragmentActivity, id: Int, callback: TaskCallback)
+```
+
+## <a name="task_cancelation"/>Tasks Cancelation
+
+You can check and cancel task, when models for markerless is loading with help of `BluDataHelpe` object:
+```kotlin
+BluDataHelper.isMarkerlessLoadingFilesTaskActive()
+BluDataHelper.cancelMarkerlessLoadingFilesTask()
 ```
 
 ## <a name="customization"/>UI customization
