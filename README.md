@@ -114,7 +114,7 @@ Blu.startMarkerlessById(activity: FragmentActivity, id: Int, callback: TaskCallb
 
 ## <a name="task_cancelation"/>Tasks Cancelation
 
-You can check and cancel task, when models for markerless is loading with help of `BluDataHelpe` object:
+You can check and cancel task, when models for markerless is loading with help of `BluDataHelper` object:
 ```kotlin
 BluDataHelper.isMarkerlessLoadingFilesTaskActive()
 BluDataHelper.cancelMarkerlessLoadingFilesTask()
