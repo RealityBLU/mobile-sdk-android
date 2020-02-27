@@ -6,7 +6,7 @@
     * [Initialization](#initialization)
     * [Markerbased](#markerbased)
     * [Markerless](#markerless)
-    * [Tasks Cancelataion](#task_cancelation)
+    * [Markerless models loading progress](#markerless_models_progress)
 * [UI Customization](#customization)
 * [Permissions handling](#permissions)
 
@@ -112,7 +112,10 @@ Or you can open markerless screen only with 1 experience with:
 Blu.startMarkerlessById(activity: FragmentActivity, id: Int, callback: TaskCallback)
 ```
 
-## <a name="task_cancelation"/>Tasks Cancelation
+## <a name="markerless_models_progress"/>Markerless models loading progress
+
+You can observe progress of loading markerless models with help of `TaskCallback` interface. Ovveride `onProgress` callback
+and update your ui.
 
 You can check and cancel task, when models for markerless is loading with help of `BluDataHelper` object:
 ```kotlin
